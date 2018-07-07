@@ -9,6 +9,7 @@ from selenium.webdriver.support.select import Select
 driver = webdriver.Chrome('C:\Program Files\Python\Python36\chromedriver.exe')
 driver.get('https://dawson8a.onelogin.com/login');
 
+#link to iframe: https://dawson.jamisprime.com/etime/TimeCardEdit.aspx?hdFormWonder=_0Arkk6UA-Ix0
 
 userName = driver.find_element_by_id('user_email')
 userName.send_keys('msantarini@dawson8a.com')
