@@ -26,7 +26,7 @@ loginButton.click()
 time.sleep(2)
 
 driver.get('https://dawson8a.onelogin.com/client/apps/select/87598317')
-time.sleep(5)
+time.sleep(1)
 
 timeAndExp = driver.find_element_by_xpath('//*[@id="panelT_modulesBar_ul"]/li[5]/div/div')
 timeAndExp.click()
@@ -34,7 +34,7 @@ time.sleep(1)
 
 timeCard = driver.find_element_by_xpath('//*[@id="panelL_menuPanel_sp1_tree1_node_0_0"]/span')
 timeCard.click()
-time.sleep(3)
+time.sleep(2)
 
 driver.switch_to_frame(driver.find_element_by_tag_name("iframe"))
 
