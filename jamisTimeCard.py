@@ -1,11 +1,11 @@
-import schedule
+#import schedule
 import time
 import datetime
 import random
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
 
-
+#surfacebook and work computer webdriver path
 driver = webdriver.Chrome('C:\Program Files\Python\Python36\chromedriver.exe')
 driver.get('https://dawson8a.onelogin.com/login');
 
@@ -14,36 +14,35 @@ driver.get('https://dawson8a.onelogin.com/login');
 userName = driver.find_element_by_id('user_email')
 userName.send_keys('msantarini@dawson8a.com')
 password = driver.find_element_by_id('user_password')
-password.send_keys('PASSWORD')
+password.send_keys('PASS$')
 loginButton = driver.find_element_by_id('user_submit')
 loginButton.click()
 time.sleep(2)
 securityQ1 = driver.find_element_by_xpath("(//input[@class='security-answer'])[1]")
-securityQ1.send_keys('Butthole')
+securityQ1.send_keys('Q1')
 securityQ2 = driver.find_element_by_xpath("(//input[@class='security-answer'])[2]")
-securityQ2.send_keys('Butthole')
+securityQ2.send_keys('Q2')
 loginButton.click()
 time.sleep(2)
-
 
 driver.get('https://dawson8a.onelogin.com/client/apps/select/87598317')
 time.sleep(5)
 
 timeAndExp = driver.find_element_by_xpath('//*[@id="panelT_modulesBar_ul"]/li[5]/div/div')
 timeAndExp.click()
-
 time.sleep(1)
 
 timeCard = driver.find_element_by_xpath('//*[@id="panelL_menuPanel_sp1_tree1_node_0_0"]/span')
 timeCard.click()
+time.sleep(3)
 
-time.sleep(8)
+driver.switch_to_frame(driver.find_element_by_tag_name("iframe"))
 
 #period = driver.find_element_by_id('ctlTimeCardSelector_ddlDate')
 #period.click()
 
-select_fr = Select(driver.find_element_by_id("ctlTimeCardSelector_ddlDate"))
-select_fr.select_by_index(2)
+##select_fr = Select(driver.find_element_by_id("ctlTimeCardSelector_ddlDate"))
+##select_fr.select_by_index(2)
 
 #option1 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[1]')
 #option2 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[2]')
@@ -96,7 +95,7 @@ submitButton = driver.find_element_by_id('ibtnSubmit')
 submitButton.click()
 
 continueButton = driver.find_element_by_id('ibtnContinue')
-continueButton.click()
+#continueButton.click()
 
 
 ##schedule.every().day.at("09:00").do(job,'It is 09:00')
