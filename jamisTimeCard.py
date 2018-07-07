@@ -98,6 +98,10 @@ continueButton = driver.find_element_by_id('ibtnContinue')
 #continueButton.click()
 
 
+driver.close()
+
+print("Done.")
+
 ##schedule.every().day.at("09:00").do(job,'It is 09:00')
 ##
 ##while True:
