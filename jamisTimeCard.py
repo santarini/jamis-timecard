@@ -12,7 +12,7 @@ driver.get('https://dawson8a.onelogin.com/login');
 #link to iframe: https://dawson.jamisprime.com/etime/TimeCardEdit.aspx?hdFormWonder=_0Arkk6UA-Ix0
 
 userName = driver.find_element_by_id('user_email')
-userName.send_keys('msantarini@dawson8a.com')
+userName.send_keys('user_email')
 password = driver.find_element_by_id('user_password')
 password.send_keys('PASS$')
 loginButton = driver.find_element_by_id('user_submit')
