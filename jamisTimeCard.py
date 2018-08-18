@@ -5,24 +5,29 @@ import re
 import random
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+import pyautogui
 
 #surfacebook and work computer webdriver path
 driver = webdriver.Chrome('C:\Program Files\Python\Python36\chromedriver.exe')
+driver.set_window_size(1900, 1900)
+driver.set_window_position(0, 0)
 driver.get('https://dawson8a.onelogin.com/login')
 
 #link to iframe: https://dawson.jamisprime.com/etime/TimeCardEdit.aspx?hdFormWonder=_0Arkk6UA-Ix0
 
 userName = driver.find_element_by_id('user_email')
-userName.send_keys('user login')
+userName.send_keys('dawson email')
 password = driver.find_element_by_id('user_password')
-password.send_keys('user pass')
+password.send_keys('dawson pass')
 loginButton = driver.find_element_by_id('user_submit')
 loginButton.click()
 time.sleep(2)
 securityQ1 = driver.find_element_by_xpath("(//input[@class='security-answer'])[1]")
 securityQ1.send_keys('sec q 1')
 securityQ2 = driver.find_element_by_xpath("(//input[@class='security-answer'])[2]")
-securityQ2.send_keys('sec q 2')
+securityQ2.send_keys('sec q 2)
 loginButton.click()
 time.sleep(2)
 
@@ -155,7 +160,7 @@ nextButton.click()
 time.sleep(3)
 
 passwordField = driver.find_element_by_name('password')
-passwordField.send_keys('gmail pass!')
+passwordField.send_keys('gmail pass')
 nextButton = driver.find_element_by_id('passwordNext')
 nextButton.click()
 
@@ -168,13 +173,13 @@ page_body.send_keys('c')
 #define the "recipient" field
 time.sleep(3)
 recipient = driver.find_element_by_name('to')
-recipient.send_keys('reciving email')
+recipient.send_keys('reciving adrs')
 
 #define the "subject line" field
 subject = driver.find_element_by_name('subjectbox')
 timenow = datetime.datetime.now().strftime("%I:%M:%S %p")
 datenow = datetime.datetime.now().strftime("%Y-%m-%d")
-subject.send_keys("Timecard Submitted" + Keys.TAB + timenow + " for week of X")
+subject.send_keys("Timecard Submitted" + Keys.TAB + timenow + " " + datenow + " for week of " + str(today) + ".")
 
 time.sleep(2)
 
