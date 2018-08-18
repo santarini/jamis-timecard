@@ -1,27 +1,28 @@
 #import schedule
 import time
 import datetime
+import re
 import random
 from selenium import webdriver
 from selenium.webdriver.support.select import Select
 
 #surfacebook and work computer webdriver path
 driver = webdriver.Chrome('C:\Program Files\Python\Python36\chromedriver.exe')
-driver.get('https://dawson8a.onelogin.com/login');
+driver.get('https://dawson8a.onelogin.com/login')
 
 #link to iframe: https://dawson.jamisprime.com/etime/TimeCardEdit.aspx?hdFormWonder=_0Arkk6UA-Ix0
 
 userName = driver.find_element_by_id('user_email')
-userName.send_keys('user_email')
+userName.send_keys('user login')
 password = driver.find_element_by_id('user_password')
-password.send_keys('PASS$')
+password.send_keys('user pass')
 loginButton = driver.find_element_by_id('user_submit')
 loginButton.click()
 time.sleep(2)
 securityQ1 = driver.find_element_by_xpath("(//input[@class='security-answer'])[1]")
-securityQ1.send_keys('Q1')
+securityQ1.send_keys('sec q 1')
 securityQ2 = driver.find_element_by_xpath("(//input[@class='security-answer'])[2]")
-securityQ2.send_keys('Q2')
+securityQ2.send_keys('sec q 2')
 loginButton.click()
 time.sleep(2)
 
@@ -41,13 +42,54 @@ driver.switch_to_frame(driver.find_element_by_tag_name("iframe"))
 #period = driver.find_element_by_id('ctlTimeCardSelector_ddlDate')
 #period.click()
 
-##select_fr = Select(driver.find_element_by_id("ctlTimeCardSelector_ddlDate"))
-##select_fr.select_by_index(2)
+optionList = []
+
+select_fr = Select(driver.find_element_by_id("ctlTimeCardSelector_ddlDate"))
+for option in select_fr.options:
+    optionList.append(option.text)
+
+
+#####
+
+dateList = []
+
+today = datetime.date.today()
+
+#we figure out which list contians dates and plug those into a list
+r = re.compile("\d\d/\d\d/\d\d\d\d - \d\d/\d\d/\d\d\d\d")
+newlist = list(filter(r.match, optionList))
+
+#we figure out the index ref number for each list element and create a dictionary 
+for element in newlist:
+    subList = [optionList.index(element)]
+    dateStr = element.split("(")[0].split("-")[0].rstrip()
+    dateStart = datetime.datetime.strptime(dateStr, '%m/%d/%Y').date()
+    for x in range (0, 7):
+        subList.append((dateStart + datetime.timedelta(days = x)).strftime('%Y-%m-%d'))
+    dateList.append(subList)
+
+for sublist in dateList:
+    if str(today) in sublist:
+        correctOption = sublist[0]
+
+#####
+
+###select by index
+select_fr.select_by_index(correctOption)
+
+##
+### select by visible text
+##select_fr.select_by_visible_text('Banana')
+##
+### select by value 
+##select_fr.select_by_value('1')
+##
 
 #option1 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[1]')
-#option2 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[2]')
-option3 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[3]')
-option3.click()
+#option3 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[2]')
+#option3 = driver.find_element_by_xpath('//*[@id="ctlTimeCardSelector_ddlDate"]/option[3]')
+#openCard = driver.find_elements_by_xpath("//*[contains(text(), '(Open)')]")
+#openCard.click()
 
 time.sleep(3)
 
@@ -94,16 +136,65 @@ friday.send_keys('8')
 submitButton = driver.find_element_by_id('ibtnSubmit')
 submitButton.click()
 
+time.sleep(3)
+
 continueButton = driver.find_element_by_id('ibtnContinue')
 #continueButton.click()
 
+driver.save_screenshot("TimeCardConfirmation.png")
 
-driver.close()
+driver.get('https://mail.google.com/mail/u/0/#inbox')
+
+time.sleep(5)
+page_body = driver.find_element_by_tag_name('body')
+
+loginField = driver.find_element_by_id('identifierId')
+nextButton = driver.find_element_by_id('identifierNext')
+loginField.send_keys('gmail login')
+nextButton.click()
+time.sleep(3)
+
+passwordField = driver.find_element_by_name('password')
+passwordField.send_keys('gmail pass!')
+nextButton = driver.find_element_by_id('passwordNext')
+nextButton.click()
+
+time.sleep(5)
+page_body = driver.find_element_by_tag_name('body')
+
+#create new message
+page_body.send_keys('c')
+
+#define the "recipient" field
+time.sleep(3)
+recipient = driver.find_element_by_name('to')
+recipient.send_keys('reciving email')
+
+#define the "subject line" field
+subject = driver.find_element_by_name('subjectbox')
+timenow = datetime.datetime.now().strftime("%I:%M:%S %p")
+datenow = datetime.datetime.now().strftime("%Y-%m-%d")
+subject.send_keys("Timecard Submitted" + Keys.TAB + timenow + " for week of X")
+
+time.sleep(2)
+
+attachButton = driver.find_element_by_xpath('//*[@data-tooltip = "Attach files"]')
+attachButton.click()
+
+time.sleep(3)
+
+##clipboard.copy("C:\\Users\\m4k04\\Desktop\\TimeCardConfirmation.png")
+##time.sleep(3)
+##clipboard.paste()
+
+pyautogui.typewrite(r"C:\Users\m4k04\Desktop\TimeCardConfirmation.png")
+pyautogui.typewrite(['enter'])
+
+time.sleep(3)
+
+sendButton = driver.find_element_by_xpath('//*[@data-tooltip="Send ‪(Ctrl-Enter)‬"]')
+sendButton.click()
+
+driver.quit()
 
 print("Done.")
-
-##schedule.every().day.at("09:00").do(job,'It is 09:00')
-##
-##while True:
-##    schedule.run_pending()
-##    #time.sleep(60) # wait one minute
